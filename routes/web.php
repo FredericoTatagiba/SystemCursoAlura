@@ -3,6 +3,7 @@
 use App\Http\Controllers\EpisodesController;
 use App\Http\Controllers\SeriesController;
 use App\Http\Controllers\SeasonsController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\Authenticator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,17 @@ Route::get('/seasons/{season}/episodes', [EpisodesController::class, 'index'])
 
 Route::put('/seasons/{season}/episodes', [EpisodesController::class, 'watched'])
     ->name('episodes.watched');
+
+
+Route::get('/login', [UserController::class,'index'])->name('login');
+Route::post('/login', [UserController::class,'login'])->name('signin');
+Route::get('/logout', [UserController::class,'logout'])->name('logout');
+
+
+Route::get('/register', [UserController::class,'create'])->name('user.create');
+Route::post('/register', [UserController::class,'store'])->name('user.store');
+
+
 
 
 // ->only(['index', 'create', 'store', 'destroy', 'edit', 'update']);

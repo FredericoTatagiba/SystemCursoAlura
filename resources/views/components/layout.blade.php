@@ -9,27 +9,35 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
-<div class="container">
-    <h1>{{ $title }}</h1>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a href="{{route('series.index')}}" class="navbar-brand">Home</a>
 
-    @isset($successMessage)
-        <div class="alert alert-success">
-            {{ $successMessage }}
+            <a href="{{route('logout')}}">Sair</a>
         </div>
-    @endisset
+    </nav>
 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    <div class="container">
+        <h1>{{ $title }}</h1>
 
-    
-    {{ $slot }}
-</div>
+        @isset($successMessage)
+            <div class="alert alert-success">
+                {{ $successMessage }}
+            </div>
+        @endisset
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        
+        {{ $slot }}
+    </div>
 </body>
 </html>

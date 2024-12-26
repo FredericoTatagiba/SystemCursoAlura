@@ -19,8 +19,9 @@ class Authenticator
     public function handle(Request $request, Closure $next)
     {
         if(!Auth::check()){
-            throw new AuthenticationException("Não autorizado");
+            return redirect()->route('login')->withErrors(["Usuario ou senha invalidos"]);
         }
+        
         return $next($request);
     }
 }
