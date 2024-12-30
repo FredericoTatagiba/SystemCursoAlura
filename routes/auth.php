@@ -5,13 +5,14 @@ use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
-use App\Http\Controllers\EpisodesController;
-use App\Http\Controllers\SeasonsController;
-use App\Http\Controllers\SeriesController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EpisodesController;
+use App\Http\Controllers\SeriesController;
+use App\Http\Controllers\SeasonsController;
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -34,16 +35,14 @@ Route::middleware('guest')->group(function () {
                 ->name('password.reset');
 
     Route::post('reset-password', [NewPasswordController::class, 'store'])
-                ->name('password.update');
+                ->name('password.store');
 });
 
-Route::resource('/series', SeriesController::class)
-    ->except(['show']);
 Route::middleware('auth')->group(function () {
-    Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
+    Route::get('verify-email', EmailVerificationPromptController::class)
                 ->name('verification.notice');
 
-    Route::get('verify-email/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
+    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
                 ->middleware(['signed', 'throttle:6,1'])
                 ->name('verification.verify');
 
@@ -56,15 +55,18 @@ Route::middleware('auth')->group(function () {
 
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
+    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
+
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
 
-    Route::get('/', function () {
-        return redirect('/series');
-    });
-    Route::get('/series/{series}/seasons', [SeasonsController::class, 'index'])
-        ->name('seasons.index');
+    Route::resource('/series', SeriesController::class)->except('show');
 
+    
+    Route::get('/series/{series}', [SeriesController::class, 'show'])->name('series.show');
+
+    Route::get('/series/{series}/seasons', [SeasonsController::class, 'index'])->name('seasons.index');
     Route::get('/seasons/{season}/episodes', [EpisodesController::class, 'index'])->name('episodes.index');
-    Route::post('/seasons/{season}/episodes', [EpisodesController::class, 'update'])->name('episodes.update');
+    Route::put('/seasons/{season}/episodes', [EpisodesController::class, 'watched'])->name('episodes.watched');
+    
 });
