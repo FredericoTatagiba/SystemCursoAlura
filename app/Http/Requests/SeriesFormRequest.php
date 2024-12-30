@@ -25,6 +25,7 @@ class SeriesFormRequest extends FormRequest
     {
         return [
             'name'=> 'required|string|min:3|max:120',
+            'cover' => 'nullable|image|mimes:jpg,jpeg,png,gif',
         ];
     }
 
@@ -33,6 +34,8 @@ class SeriesFormRequest extends FormRequest
             'name.required' => 'O nome é obrigatório.',
             'name.min'=> 'O nome tem de ter no minimo :min caracteres',
             'name.max' =>'O nome não pode ter mais de :max caracteres',
+            'cover.image' => 'O arquivo enviado deve ser uma imagem.',
+            'cover.mimes' => 'A imagem deve ser do tipo: jpg, jpeg, png ou gif.',
         ];
     }
 }

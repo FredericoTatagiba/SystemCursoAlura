@@ -18,42 +18,17 @@ class SeriesCreated extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+        public string $nameSeries,
+        public int $seriesId,
+        public int $seasonsQty,
+        public int $episodesPerSeason,
+    )
     {
-        //
+        $this->subject="Série $nameSeries criada.";
     }
 
-    /**
-     * Get the message envelope.
-     *
-     * @return \Illuminate\Mail\Mailables\Envelope
-     */
-    public function envelope()
-    {
-        return new Envelope(
-            subject: 'Series Created',
-        );
-    }
-
-    /**
-     * Get the message content definition.
-     *
-     * @return \Illuminate\Mail\Mailables\Content
-     */
-    public function content()
-    {
-        return new Content(
-            view: 'view.name',
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array
-     */
-    public function attachments()
-    {
-        return [];
+    public function build(){
+        return $this->markdown("mail.seriesCreated");
     }
 }

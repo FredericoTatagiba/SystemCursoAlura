@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SeriesCreated as EventSeriesCreated;
+use App\Mail\SeriesCreated;
 use Illuminate\Http\Request;
 use App\Models\Series;
 use App\Http\Requests\SeriesFormRequest;
+use App\Models\User;
 use App\Repositories\SeriesRepositoryInterface as SeriesRepository;
+use Illuminate\Support\Facades\Mail;
 
 class SeriesController extends Controller
 {
@@ -39,7 +43,19 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request){
 
+        $coverPath = null;
+        $coverPath = $request->file('cover')
+            ->store('series_cover', 'public');
+        dd($coverPath);
+            $request->merge(['cover' => $coverPath]);
         $series = $this->repository->add($request);
+        EventSeriesCreated::dispatch(
+            $series->name,
+            $series->id,
+            $request->seasonsQuantity,
+            $request->episodesPerSeason,
+        );
+
         return to_route('series.index')
             ->with('message.success',"Série '{$series->name}' adicionada com sucesso");
     }

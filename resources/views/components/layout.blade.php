@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title }} - Controle de Séries</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/app.scss') }}">
+    <link rel="stylesheet" href="{{ asset('css/estilos.css') }}">
 
 </head>
 <body>
@@ -16,7 +16,7 @@
             <a href="{{route('series.index')}}" class="navbar-brand">Home</a>
 
             @auth
-                <a href="{{route('logout')}}">Sair</a>
+                <a href="{{route('logout')}}" method="POST">Sair</a>
             @endauth
             @guest
                 <a href="{{route('login')}}">Entrar</a>
