@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Http\Controllers\Controller;
 use App\Models\Season;
 use App\Models\Episode;
 use Illuminate\Http\Request;

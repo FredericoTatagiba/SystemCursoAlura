@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\SeriesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Series;
+use App\Models\Episode;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,4 +21,21 @@ Route::middleware('auth:sanctum')
     return $request->user();
 });
 
-Route::get('/series', [SeriesController::class,'show']);
+
+Route::apiResource('/series', SeriesController::class);
+
+Route::prefix('/series/{series}')->group(function () {
+    Route::get('/seasons', function (Series $series) {
+        return $series->seasons;
+    });
+
+    Route::get('/episodes', function (Series $series) {
+        return $series->episodes;
+    });
+});
+
+Route::patch('/episodes/{episode}', function (Episode $episode, Request $request) {
+    $episode->watched = $request->watched;
+    $episode->save();
+    return $episode;
+});

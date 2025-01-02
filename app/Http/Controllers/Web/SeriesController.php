@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Http\Controllers\Controller;
 use App\Events\SeriesCreated as EventSeriesCreated;
 use App\Mail\SeriesCreated;
 use Illuminate\Http\Request;
