@@ -4,6 +4,12 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @property string $cover
+ * @property string $name
+ * @property int $seasonsQuantity
+ * @property int $episodesPerSeason
+ */
 class SeriesFormRequest extends FormRequest
 {
     /**
@@ -18,8 +24,8 @@ class SeriesFormRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
+     *  
+     *  @return array<string, mixed>
      */
     public function rules()
     {

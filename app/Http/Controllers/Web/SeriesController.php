@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
 use App\Events\SeriesCreated as EventSeriesCreated;
 use App\Mail\SeriesCreated;
 use Illuminate\Http\Request;
 use App\Models\Series;
 use App\Http\Requests\SeriesFormRequest;
+use App\Jobs\DeleteSeriesCover;
 use App\Models\User;
 use App\Repositories\SeriesRepositoryInterface as SeriesRepository;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class SeriesController extends Controller
 {
@@ -42,12 +44,12 @@ class SeriesController extends Controller
     }
 
     public function store(SeriesFormRequest $request){
-
-        $coverPath = null;
-        $coverPath = $request->file('cover')
-            ->store('series_cover', 'public');
-        dd($coverPath);
-            $request->merge(['cover' => $coverPath]);
+        
+        
+        $coverPath = $request->hasFile('cover')
+            ?   $request->file('cover')->store('series_cover', 'public')
+            :   null;
+        $request->cover = $coverPath;
         $series = $this->repository->add($request);
         EventSeriesCreated::dispatch(
             $series->name,
@@ -60,10 +62,11 @@ class SeriesController extends Controller
             ->with('message.success',"Série '{$series->name}' adicionada com sucesso");
     }
 
-    public function destroy(Series $series, Request $request){
+    public function destroy(Series $series){
         
         // Series::find($request->series)->delete();
         $series->delete();
+        DeleteSeriesCover::dispatch($series->cover);
 
         return to_route('series.index')
         ->with('message.success', "Série '{$series->name}' removida com sucesso");
