@@ -661,6 +661,9 @@ select {
 .mb-6 {
   margin-bottom: 1.5rem;
 }
+.me-3 {
+  margin-inline-end: 0.75rem;
+}
 .ml-1 {
   margin-left: 0.25rem;
 }
