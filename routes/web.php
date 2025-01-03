@@ -4,10 +4,10 @@ use App\Http\Controllers\ProfileController;
 
 use App\Mail\SeriesCreated;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Web\SeasonsController;
-use App\Http\Controllers\Web\SeriesController;
-use App\Http\Controllers\Web\UserController;
-use App\Http\Controllers\Web\EpisodesController;
+use App\Http\Controllers\SeasonsController;
+use App\Http\Controllers\SeriesController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\EpisodesController;
 use App\Models\Series;
 
 /*

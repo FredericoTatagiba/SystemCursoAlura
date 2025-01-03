@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Web;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Events\SeriesCreated as EventSeriesCreated;
 use App\Mail\SeriesCreated;
 use Illuminate\Http\Request;
